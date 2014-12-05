@@ -3,7 +3,7 @@ package $package$
 import org.scalatra._
 import scalate.ScalateSupport
 
-class $servlet_name$ extends $name;format="Camel"$Stack {
+class $servlet_name$ extends ScalatraServlet with ScalateSupport {
 
   get("/") {
     <html>
@@ -13,5 +13,14 @@ class $servlet_name$ extends $name;format="Camel"$Stack {
       </body>
     </html>
   }
-  
+
+  notFound {
+    // remove content type in case it was set through an action
+    contentType = null
+    // Try to render a scalate template if no route matched, fallback to static resource and then not found
+    findTemplate(requestPath) map { path =>
+      contentType = "text/html"
+      layoutTemplate(path)
+    } orElse serveStaticResource() getOrElse resourceNotFound()
+  }
 }
