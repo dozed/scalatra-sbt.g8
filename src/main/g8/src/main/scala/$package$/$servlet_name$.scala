@@ -1,7 +1,7 @@
 package $package$
 
 import org.scalatra._
-import scalate.ScalateSupport
+import org.scalatra.scalate.ScalateSupport
 
 class $servlet_name$ extends ScalatraServlet with ScalateSupport {
 
@@ -23,4 +23,5 @@ class $servlet_name$ extends ScalatraServlet with ScalateSupport {
       layoutTemplate(path)
     } orElse serveStaticResource() getOrElse resourceNotFound()
   }
+
 }
